@@ -88,11 +88,11 @@ namespace Fushigi.ui
             {
                 if (ImGui.BeginMenu("File"))
                 {
-                    if (ImGui.MenuItem("Set RomFS Path"))
+                    if (ImGui.MenuItem("Change RomFS Path"))
                     {
                         /* open a new folder dialog to select the RomFS */
                         FolderDialog dialog = new FolderDialog();
-                        if (dialog.ShowDialog("Select Your RomFS Folder..."))
+                        if (dialog.ShowDialog("Select your RomFS folder..."))
                         {
                             string basePath = dialog.SelectedPath.Replace("\0", "");
                             if (string.IsNullOrEmpty(basePath))
@@ -129,7 +129,14 @@ namespace Fushigi.ui
                 /* end entire menu bar */
                 ImGui.EndMenuBar();
             }            
-
+            
+            /* load RomFS, if already set up in UserSettings */
+            if (UserSettings.GetRomFSPath() != "")
+            {
+                RomFS.SetRoot(UserSettings.GetRomFSPath());
+                mIsRomFSSelected = true;
+            }
+            
             /* if our RomFS is selected, fill the course list */
             if (mIsRomFSSelected)
             {
